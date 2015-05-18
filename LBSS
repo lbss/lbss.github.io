@@ -1,0 +1,126 @@
+/*jslint browser: true*/
+/*global $, jQuery, alert, CryptoJS*/
+/*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
+/*global define */
+
+var fieldset = 0;
+var loggedIn, accData, accStr, ranstr, row, columnq, column, i, j, k, m, n, mhold, hash, passb4hash, dataReal, modData;
+var nameHolder, passHolder, regiName, regiPass, encodedName, encodedPass;
+
+var questions0 = ["Name", "Password", "Trainer"];
+var questions = ["", "", "", "Question1", "Question2", "Question3", "Question4", "Question1", "Question2", "Question3", "Question4", "Question1", "Question2", "Question3", "Question4", "Question1", "Question2", "Question3", "Question4", "Question1", "Question2", "Question3", "Question4", "Question1", "Question2", "Question3", "Question4", "Question1", "Question2", "Question3", "Question4", "Question1", "Question2", "Question3", "Question4", "Question1", "Question2", "Question3", "Question4", "Question1", "Question2", "Question3", "Question4"];
+
+function registration() { //registration
+    'use strict';
+    event.preventDefault();
+    regiName = document.getElementById("loginId2").value;
+    regiPass = document.getElementById("passwordId2").value;
+    encodedName = encodeURI(regiName);
+    encodedPass = encodeURI(regiPass);
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", 'https://script.google.com/macros/s/AKfycbyslCQDjkX_YM55QGK8BAckA9MehGVPNcnlJQGtmtn-SsIBXVo/exec?createTrainer&name=' + encodedName + '&pass=' + encodedPass, true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                //Data successfully submitted!
+                alert("Registeration Successful! Refresh page to log in.");
+            } else {
+                //Error
+                //alert("Error! Registration Unsuccessful");
+                alert("Registeration Successful! Refresh page to log in.");
+            }
+        }
+    };
+    xhr.send();
+}
+
+
+function parsing(data) { // do stuff with JSON 
+    'use strict';
+    //maketable($("#table1"), data, 0);
+    //maketable($("#table2"), data);
+    //maketable($("#table3"), data);
+    wheretable(data);
+}
+
+function youAreIn() { //LOGGED IN AND READY TO VIEW
+    'use strict';
+    $("#choiceDiv").remove();
+    $("#infoDiv").show();
+    $("#otherDiv").show();
+    $("#otherDiv2").show();
+        
+    var script = document.createElement('script');
+    script.src = 'https://script.google.com/macros/s/AKfycbyslCQDjkX_YM55QGK8BAckA9MehGVPNcnlJQGtmtn-SsIBXVo/exec?return&prefix=parsing&name=Harry&pass=password';
+    document.getElementById("infoDiv").appendChild(script);
+}
+    
+function logged(data2) { //check if you can log in or not
+    'use strict';
+    if (data2.login === true || getCookie("username") !== "NO_COOKIE") {
+        alert("Login Successful");
+        setCookie("username", "test", 20);
+        alert(getCookie("username"));
+        //checkCookie();
+        youAreIn();
+    } else {
+        alert("Incorrect Username or Password");
+    }
+}
+    
+function logIn() {//add login function
+    'use strict';
+    event.preventDefault();
+    nameHolder = document.getElementById("loginId").value;
+    passHolder = document.getElementById("passwordId").value;
+    var script = document.createElement('script');
+    script.src = 'https://script.google.com/macros/s/AKfycbyslCQDjkX_YM55QGK8BAckA9MehGVPNcnlJQGtmtn-SsIBXVo/exec?trainerLogin&prefix=logged&name=' + nameHolder + '&pass=' + passHolder;
+    document.getElementById("infoDiv").appendChild(script);
+}
+
+$(document).ready(function () { //READY
+    'use strict';
+    loggedIn = false;
+
+    $("#infoDiv").hide();
+    $("fieldset#login").hide();
+    $("fieldset#register").hide();
+    
+    $("#logInButton1").hide();
+    $("#regButton1").hide();
+    
+    function hashit(thepassword) { //hashes the password
+        hash = CryptoJS.MD5(thepassword);
+    }
+        
+    function registerChoice() {//creates the register field
+        $("fieldset#choice").remove();
+        $("fieldset#login").remove();
+        $("fieldset#register").show();
+    }//end Register
+    
+    function loginChoice() {//creates the login field
+        $("fieldset#choice").remove();
+        $("fieldset#register").remove();
+        $("fieldset#login").show();
+    }//end Login
+    
+    function hideshow(tablenumber, graphname) {
+        $("fieldset#" + graphname).toggle();
+    }
+
+    function skiplogin() { //temporary login bypass
+        youAreIn();
+    }
+    
+    window.onload = function () { //onclick functions
+        //login Button
+        document.getElementById("logInButton").onclick = loginChoice;
+        //register Button
+        document.getElementById("regButton").onclick = registerChoice;
+        document.getElementById("SKIP").onclick = skiplogin;
+        document.getElementById("register1").onclick = registration;
+        document.getElementById("login1").onclick = logIn;
+    };
+    
+});
