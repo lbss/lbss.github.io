@@ -35,14 +35,6 @@ function registration() { //registration
 }
 
 
-function parsing(data) { // do stuff with JSON 
-    'use strict';
-    //maketable($("#table1"), data, 0);
-    //maketable($("#table2"), data);
-    //maketable($("#table3"), data);
-    wheretable(data);
-}
-
 function youAreIn() { //LOGGED IN AND READY TO VIEW
     'use strict';
     $("#choiceDiv").remove();
@@ -54,19 +46,7 @@ function youAreIn() { //LOGGED IN AND READY TO VIEW
     script.src = 'https://script.google.com/macros/s/AKfycbyslCQDjkX_YM55QGK8BAckA9MehGVPNcnlJQGtmtn-SsIBXVo/exec?return&prefix=parsing&name=Harry&pass=password';
     document.getElementById("infoDiv").appendChild(script);
 }
-    
-function logged(data2) { //check if you can log in or not
-    'use strict';
-    if (data2.login === true || getCookie("username") !== "NO_COOKIE") {
-        alert("Login Successful");
-        setCookie("username", "test", 20);
-        alert(getCookie("username"));
-        //checkCookie();
-        youAreIn();
-    } else {
-        alert("Incorrect Username or Password");
-    }
-}
+
     
 function logIn() {//add login function
     'use strict';
