@@ -5,7 +5,7 @@
 
 function display() { //shows map
     'use strict';
-    var jsonFile = "cvs-to-json.php";
+    var jsonFile = "data.json.php";
     var obj = JSON.parse(jsonFile);
     document.getElementById("data").innerHTML = obj.streetAddress + " " + obj.city;
 }
