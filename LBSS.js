@@ -7,7 +7,7 @@ function display() { //shows map
     'use strict';
     var jsonFile = $.get("data.json.php");
     var obj = JSON.parse(jsonFile);
-    document.getElementById("data").innerHTML = obj.streetAddress + " " + obj.city;
+    document.getElementById("data").innerHTML = obj;
 }
 
 $(document).ready(function () { //READY
